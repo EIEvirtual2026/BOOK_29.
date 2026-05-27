@@ -846,7 +846,7 @@
         var meses = ["ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO","JULIO","AGOSTO","SEPTIEMBRE","OCTUBRE","NOVIEMBRE","DICIEMBRE"];
         var fechaTexto = hoy.getDate() + ' DE ' + meses[hoy.getMonth()] + ' DEL ' + hoy.getFullYear();
         var nombreEst = datosEstudiante ? datosEstudiante.nombre : "Estudiante";
-        var libroEst = datosEstudiante && datosEstudiante.libro ? datosEstudiante.libro : "TEST BOOK 4";
+        var libroEst = datosEstudiante && datosEstudiante.libro ? datosEstudiante.libro : "TEST BOOK 29";
         var condicion = datosEstudiante ? datosEstudiante.condicion : "NORMAL";
         if (!condicion) condicion = "NORMAL";
 
@@ -1258,7 +1258,7 @@
             doc.setFont('helvetica', 'normal');
             doc.setFontSize(8);
             doc.setTextColor(91, 107, 133);
-            doc.text('TEST BOOK 4 - Documento generado automaticamente - EIE', pageW/2, y, { align: 'center' });
+            doc.text('TEST BOOK 29 - Documento generado automaticamente - EIE', pageW/2, y, { align: 'center' });
 
             doc.save('Resultado_' + (numCarnet || 'EIE') + '_TB4.pdf');
         } catch (err) {
