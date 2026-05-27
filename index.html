@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Escuela de Idiomas del Ejército</title>
+    <script>
+        if (screen.width < 920) {
+            document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=1024, user-scalable=yes');
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root{
+            --navy:#0b2447;
+            --navy-2:#19376d;
+            --navy-3:#0f2a5c;
+            --mustard:#e1b12c;
+            --mustard-2:#f6c945;
+            --bg:#eef2f7;
+            --surface:#ffffff;
+            --text:#0b1b34;
+            --muted:#5b6b85;
+            --line:#dbe2ec;
+            --ok:#1f8a4c;
+            --err:#c0392b;
+        }
+        *{
+            -webkit-user-select:none;
+            -moz-user-select:none;
+            -ms-user-select:none;
+            user-select:none;
+            -webkit-touch-callout:none;
+            outline:none;
+            box-sizing:border-box;
+        }
+        @media print{body{display:none!important;}}
+        html,body{height:100%;}
+        body{
+            font-family:'Poppins',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+            background:
+                radial-gradient(1200px 600px at 10% -10%,rgba(225,177,44,.22),transparent 60%),
+                radial-gradient(900px 500px at 110% 110%,rgba(11,36,71,.32),transparent 60%),
+                radial-gradient(700px 700px at 50% 50%,rgba(25,55,109,.10),transparent 70%),
+                linear-gradient(135deg,#0b1b34 0%,#0f2a5c 45%,#19376d 100%);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            min-height:100vh;
+            margin:0;
+            color:var(--text);
+            overflow:hidden;
+            position:relative;
+        }
+        body::before{
+            content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+            background-image:
+                linear-gradient(rgba(225,177,44,.06) 1px,transparent 1px),
+                linear-gradient(90deg,rgba(225,177,44,.06) 1px,transparent 1px);
+            background-size:48px 48px;
+            -webkit-mask-image:radial-gradient(ellipse at center,#000 30%,transparent 80%);
+            mask-image:radial-gradient(ellipse at center,#000 30%,transparent 80%);
+        }
+        body.scroll-resultado,body.scroll-inicio{
+            overflow-y:auto!important;
+            align-items:flex-start!important;
+            padding:24px 0;
+        }
+        body.scroll-resultado .container,body.scroll-inicio .container{
+            max-height:none!important;margin:0 auto;
+        }
+        .container{
+            background:linear-gradient(180deg,#ffffff 0%,#f7faff 100%);
+            padding:24px 36px 36px;
+            border-radius:22px;
+            box-shadow:0 20px 60px rgba(0,0,0,.45),0 0 0 1px rgba(225,177,44,.15);
+            width:95%;
+            max-width:1100px;
+            text-align:center;
+            position:relative;
+            display:flex;
+            flex-direction:column;
+            border:1px solid var(--line);
+            z-index:1;
+        }
+        .container::before{
+            content:"";position:absolute;inset:-2px;border-radius:24px;padding:2px;
+            background:conic-gradient(from 0deg,
+                rgba(225,177,44,0) 0%,rgba(225,177,44,.9) 15%,
+                rgba(25,55,109,0) 35%,rgba(25,55,109,.9) 55%,
+                rgba(225,177,44,0) 75%,rgba(225,177,44,.9) 95%,
+                rgba(225,177,44,0) 100%);
+            -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+            -webkit-mask-composite:xor;mask-composite:exclude;
+            
+            pointer-events:none;z-index:0;opacity:.85;
+        }
+        .container > *{position:relative;z-index:1;}
+        @keyframes rotateBorder{to{transform:rotate(360deg);}}
+        @keyframes pulseGlow{
+            0%,100%{box-shadow:0 0 0 0 rgba(225,177,44,.55),0 8px 24px rgba(11,36,71,.25);}
+            50%{box-shadow:0 0 0 10px rgba(225,177,44,0),0 8px 24px rgba(11,36,71,.25);}
+        }
+        @keyframes scanX{0%{transform:translateX(-120%);}100%{transform:translateX(120%);}}
+        @keyframes floatY{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
+        .brand-bar{
+            display:flex;align-items:center;justify-content:space-between;
+            padding-bottom:14px;margin-bottom:8px;
+            border-bottom:1px solid var(--line);
+        }
+        .brand-bar .brand{
+            display:flex;align-items:center;gap:10px;
+            font-weight:700;color:var(--navy);letter-spacing:.5px;
+        }
+        .brand-bar .brand .dot{
+            width:10px;height:10px;border-radius:50%;
+            background:var(--mustard);box-shadow:0 0 0 4px rgba(225,177,44,.25);
+        }
+        .brand-bar .tag{font-size:.78em;color:var(--muted);font-weight:500;}
+        .main-layout{display:flex;gap:20px;width:100%;margin-bottom:10px;}
+        .nav-panel{
+            width:200px;background:linear-gradient(180deg,#f7f9fc,#eef2f7);
+            border-radius:14px;padding:12px;border:1px solid var(--line);
+            max-height:540px;display:none;
+        }
+        .nav-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;}
+        .nav-item{
+            aspect-ratio:1;display:flex;align-items:center;justify-content:center;
+            background:#fff;border:1px solid var(--line);border-radius:8px;
+            font-size:.72em;font-weight:700;color:var(--muted);cursor:pointer;
+            transition:transform .15s ease,background .15s ease,color .15s ease,border-color .15s ease;
+        }
+        .nav-item:hover{transform:translateY(-1px);}
+        .nav-item.active{border:2px solid var(--navy);color:var(--navy);background:#e7eefb;}
+        .nav-item.answered{background:var(--mustard);color:var(--navy);border-color:var(--mustard);}
+        .content-area{flex:1;}
+        .pregunta-box{display:none;width:100%;}
+        .header-pregunta{
+            display:flex;justify-content:space-between;align-items:center;
+            margin:8px 0 14px;padding:0 6px;gap:14px;
+        }
+        .texto-pregunta{
+            font-size:1.55em;font-weight:700;color:var(--navy);
+            flex:1;text-align:center;letter-spacing:.2px;
+        }
+        .tiempo-global{
+            background:var(--navy);color:var(--mustard-2);
+            padding:9px 16px;border-radius:10px;
+            font-family:'Poppins',monospace;font-size:1.15em;font-weight:700;
+            border:2px solid var(--mustard);
+            box-shadow:0 6px 18px rgba(11,36,71,.25);letter-spacing:1px;
+        }
+        .bloque-contenido{width:100%;max-width:870px;margin:0 auto;}
+        .imagen-pregunta{
+            width:100%;height:auto;max-height:380px;object-fit:contain;
+            margin:0 auto 28px;border-radius:14px;display:block;
+            border:1px solid var(--line);pointer-events:none;background:#fafbfd;
+        }
+        .layout-etapa2{display:flex;align-items:center;gap:30px;text-align:center;margin-bottom:28px;}
+        .img-lateral{flex:1;max-width:350px;border-radius:12px;border:1px solid var(--line);}
+        .columna-opciones{flex:1;display:flex;flex-direction:column;gap:10px;text-align:center;}
+        .contenedor-opciones-circular{display:grid;grid-template-columns:repeat(4,1fr);width:100%;margin-bottom:36px;gap:8px;}
+        .contenedor-opciones-vertical{display:flex;flex-direction:column;gap:12px;width:100%;max-width:520px;margin:0 auto 32px;}
+        .division-opcion{display:flex;justify-content:center;align-items:center;}
+        .opcion-btn-circular{
+            width:68px;height:68px;border-radius:50%;border:2px solid var(--line);
+            background:#fff;cursor:pointer;font-size:1.35em;color:var(--navy);font-weight:700;
+            display:flex;align-items:center;justify-content:center;
+            transition:all .2s ease;box-shadow:0 3px 10px rgba(11,36,71,.06);
+        }
+        .opcion-btn-circular:hover{border-color:var(--mustard);transform:translateY(-2px);}
+        .opcion-btn-vertical{
+            width:100%;padding:14px 18px;border-radius:12px;border:2px solid var(--line);
+            background:#fff;cursor:pointer;font-size:1.05em;text-align:left;
+            transition:.2s ease;font-weight:500;color:var(--text);
+            box-shadow:0 3px 10px rgba(11,36,71,.04);
+        }
+        .opcion-btn-vertical:hover{border-color:var(--mustard);}
+        .opcion-btn-circular.seleccionada,.opcion-btn-vertical.seleccionada{
+            background:var(--navy);color:var(--mustard-2);border-color:var(--mustard);
+            box-shadow:0 8px 22px rgba(11,36,71,.35);
+        }
+        .timer-container{width:100%;background-color:#e9eef5;border-radius:20px;margin:8px auto;height:10px;overflow:hidden;}
+        .timer-bar{height:100%;width:100%;background:linear-gradient(90deg,var(--mustard),var(--mustard-2));}
+        .contador-texto{font-size:.92em;color:var(--muted);margin-top:4px;}
+        .btn-primario{
+            padding:14px 32px;cursor:pointer;border-radius:12px;border:none;
+            background:linear-gradient(180deg,var(--navy-2),var(--navy));
+            color:#fff;font-weight:700;font-size:1.05em;font-family:inherit;
+            transition:transform .15s ease,box-shadow .2s ease,filter .2s ease;
+            box-shadow:0 10px 22px rgba(11,36,71,.28);letter-spacing:.3px;
+        }
+        .btn-primario:hover{transform:translateY(-1px);filter:brightness(1.05);}
+        .btn-mostaza{
+            background:linear-gradient(180deg,var(--mustard-2),var(--mustard));
+            color:var(--navy);box-shadow:0 10px 22px rgba(225,177,44,.4);
+        }
+        .btn-pausa{display:none!important;}
+        .btn-siguiente{
+            margin-top:18px;padding:12px 42px;
+            background:linear-gradient(180deg,var(--mustard-2),var(--mustard));
+            color:var(--navy);border:none;border-radius:12px;
+            font-weight:700;font-size:1.05em;font-family:inherit;cursor:pointer;
+            box-shadow:0 10px 22px rgba(225,177,44,.4);
+            transition:transform .15s ease,filter .15s ease;
+        }
+        .btn-siguiente:hover{transform:translateY(-1px);filter:brightness(1.04);}
+        #btnGuardarEnviar{display:none;margin-top:18px;}
+        #aviso-conexion,#pantalla-carga-final{
+            display:none;position:absolute;inset:0;
+            background:rgba(255,255,255,.98);z-index:9999;border-radius:22px;
+            flex-direction:column;justify-content:center;align-items:center;
+        }
+        .loader-container{
+            position:relative;width:84px;height:84px;
+            display:flex;align-items:center;justify-content:center;margin-bottom:18px;
+        }
+        .spinner-red{
+            position:absolute;width:100%;height:100%;
+            border:6px solid #eef2f7;border-top:6px solid var(--mustard);
+            border-right:6px solid var(--navy);border-radius:50%;
+            animation:spin 1s linear infinite;
+        }
+        .logo-spinner{width:42px;height:42px;object-fit:contain;}
+        @keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+        #modal-confirmacion,#modal-salir{
+            display:none;position:fixed;inset:0;
+            background:rgba(11,27,52,.55);z-index:10000;
+            justify-content:center;align-items:center;backdrop-filter:blur(2px);
+        }
+        .modal-content{
+            background:#fff;padding:28px;border-radius:16px;max-width:420px;
+            text-align:center;border-top:6px solid var(--mustard);
+            box-shadow:0 20px 60px rgba(0,0,0,.3);
+        }
+        .modal-content h3{margin:0 0 8px;color:var(--navy);}
+        .modal-content p{margin:0 0 6px;color:var(--muted);}
+        .input-carnet{
+            padding:13px 14px;font-size:1.15em;border:2px solid var(--navy);
+            border-radius:10px;margin-bottom:18px;width:280px;text-align:center;
+            font-family:inherit;user-select:text!important;-webkit-user-select:text!important;
+            color:var(--navy);font-weight:600;
+        }
+        .input-carnet:focus{border-color:var(--mustard);box-shadow:0 0 0 4px rgba(225,177,44,.25);}
+        #pantalla-inicio h2{color:var(--navy);margin:4px 0 8px;font-weight:800;letter-spacing:.5px;}
+        .instr{
+            text-align:left;background:#f7f9fc;border:1px solid var(--line);
+            border-left:6px solid var(--mustard);padding:16px 20px;border-radius:12px;
+            color:#3b4a66;font-size:.95em;line-height:1.55;max-width:780px;margin:18px auto 24px;
+        }
+        .instr h3{color:var(--navy);margin:0 0 8px;}
+        .card-resultado{
+            padding:18px 26px;border:2px solid var(--navy);background:#fff;
+            border-top:8px solid var(--mustard);border-radius:16px;text-align:center;
+            max-width:620px;margin:10px auto;
+        }
+        .card-resultado h3{color:var(--navy);margin:6px 0 10px;letter-spacing:.5px;}
+        .detalle-final{
+            text-align:left;background:#f7f9fc;padding:14px 20px;border-radius:12px;
+            line-height:1.5;font-size:.98em;border:1px solid var(--line);
+        }
+        .detalle-final p{margin:4px 0;}
+        .nota-destacada{
+            font-size:28px;font-weight:800;color:var(--navy);
+            background:linear-gradient(180deg,#fff8e1,#fdecb1);
+            padding:12px;margin:12px 0;border-radius:10px;display:block;
+            border:1px solid var(--mustard);
+        }
+        .detalle-condicion{
+            background:#f7f9fc;border:2px solid var(--line);border-radius:12px;
+            padding:16px 20px;margin:12px auto;max-width:500px;text-align:left;
+        }
+        .condicion-badge{
+            display:inline-block;padding:5px 18px;border-radius:20px;
+            font-weight:700;font-size:.88em;letter-spacing:1.5px;margin-bottom:10px;
+        }
+        .condicion-badge.normal{background:#e8f5e9;color:#1f8a4c;border:1px solid #1f8a4c;}
+        .condicion-badge.rezagado{background:#fff3e0;color:#e65100;border:1px solid #e65100;}
+        .condicion-badge.retest{background:#fce4ec;color:#c62828;border:1px solid #c62828;}
+        .calculo-detalle p{margin:4px 0;font-size:.95em;}
+        .estado-aprobado{color:#1f8a4c;font-weight:700;}
+        .estado-reprobado{color:#c0392b;font-weight:700;}
+        .estado-pendiente{color:#e67e22;font-weight:700;}
+        .nota-calculo{font-size:.88em;color:var(--muted);font-style:italic;}
+        .plancheta-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;max-width:600px;margin:15px auto;}
+        .plancheta-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:7px;max-width:640px;margin:15px auto;}
+        .plancheta-item{
+            position:relative;padding:6px 4px 8px;border-radius:8px;font-size:11px;font-weight:700;
+            text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px;
+            border:1px solid rgba(11,36,71,.08);box-shadow:0 2px 6px rgba(11,36,71,.08);
+            transition:transform .15s ease;
+        }
+        .plancheta-item:hover{transform:translateY(-2px);}
+        .plancheta-item .num{font-size:10px;opacity:.85;}
+        .pmark{width:18px;height:18px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:11px;line-height:1;}
+        .pmark.ok{background:#2eb85c;border-radius:5px;box-shadow:0 2px 6px rgba(46,184,92,.45);}
+        .pmark.x{background:#e53935;box-shadow:0 2px 6px rgba(229,57,53,.45);}
+        .pmark.pend{background:#ffa726;box-shadow:0 2px 6px rgba(255,167,38,.45);position:relative;}
+        .pmark.pend::after{content:"";width:6px;height:6px;background:#fff;border-radius:50%;}
+        .pmark svg{width:12px;height:12px;}
+        /* Tech accents */
+        .input-carnet{position:relative;animation:pulseGlow 2.4s ease-in-out infinite;}
+        #btnIniciar{position:relative;overflow:hidden;}
+        #btnIniciar::after{
+            content:"";position:absolute;top:0;left:0;width:40%;height:100%;
+            background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);
+            animation:scanX 2.6s ease-in-out infinite;
+        }
+        .brand-bar .brand .dot{animation:pulseGlow 2s ease-in-out infinite;}
+        .tiempo-global{position:relative;overflow:hidden;}
+        .tiempo-global::before{
+            content:"";position:absolute;inset:0;
+            background:linear-gradient(90deg,transparent,rgba(246,201,69,.25),transparent);
+            animation:scanX 3s linear infinite;
+        }
+        .card-resultado{position:relative;overflow:hidden;}
+        .card-resultado::before{
+            content:"";position:absolute;inset:-1px;border-radius:16px;padding:1px;
+            background:linear-gradient(120deg,transparent 30%,rgba(225,177,44,.7) 50%,transparent 70%);
+            background-size:200% 200%;
+            -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+            -webkit-mask-composite:xor;mask-composite:exclude;
+            animation:scanX 3.5s linear infinite;pointer-events:none;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body oncontextmenu="return false" onkeydown="return manejarBloqueoTeclado(event)" ondragstart="return false" class="scroll-inicio">
+
+<div id="modal-confirmacion">
+    <div class="modal-content">
+        <h3>¿Confirmar Envío?</h3>
+        <p>Una vez enviado, no podrá corregir sus respuestas.</p>
+        <div style="display:flex;gap:10px;justify-content:center;margin-top:18px;">
+            <button onclick="cerrarModal()" class="btn-siguiente" style="background:#dfe5ee;color:var(--navy);padding:10px 20px;">Cancelar</button>
+            <button onclick="procesarEnvioFinal()" class="btn-primario" style="padding:10px 20px;">Sí, enviar todo</button>
+        </div>
+    </div>
+</div>
+
+<div id="modal-salir">
+    <div class="modal-content">
+        <h3>¿Desea salir del examen?</h3>
+        <p>Si sale ahora se perderá el avance no guardado.</p>
+        <div style="display:flex;gap:10px;justify-content:center;margin-top:18px;">
+            <button onclick="cancelarSalida()" class="btn-siguiente" style="padding:10px 20px;">Cancelar</button>
+            <button onclick="confirmarSalida()" class="btn-primario" style="padding:10px 20px;background:linear-gradient(180deg,#a32424,#7d1313);">Aceptar</button>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="brand-bar">
+        <div class="brand"><span class="dot"></span> EIE · Escuela de Idiomas del Ejército</div>
+        <div class="tag">TEST BOOK 29</div>
+    </div>
+
+    <div id="pantalla-carga-final">
+        <div class="loader-container">
+            <div class="spinner-red"></div>
+            <img src="LOGO_EIE.png" class="logo-spinner" id="img-loader" onerror="this.style.display='none'">
+        </div>
+        <h3 id="mensaje-carga-final" style="color:var(--navy);">Procesando...</h3>
+    </div>
+
+    <div id="aviso-conexion">
+        <div class="loader-container">
+            <div class="spinner-red"></div>
+            <img src="LOGO_EIE.png" class="logo-spinner" alt="Cargando..." onerror="this.style.display='none'">
+        </div>
+        <strong style="color:var(--err);font-size:1.25em;">SIN CONEXIÓN</strong>
+        <p id="texto-estado" style="color:var(--muted);">Reintentando conectar… El examen continuará automáticamente.</p>
+    </div>
+
+    <div id="pantalla-inicio">
+        <h2>EIE TEST BOOK 29</h2>
+        <div style="margin-bottom:14px;">
+            <p style="color:var(--muted);">Ingrese su Número de Carnet para comenzar:</p>
+            <input type="text" id="input-carnet" class="input-carnet" placeholder="C.I. del Estudiante" onfocus="enFocoInput=true" onblur="enFocoInput=false">
+            <button id="btnIniciar" class="btn-primario" style="margin-top:14px;">Comenzar Ahora</button>
+        </div>
+        <div class="instr">
+            <h3>INSTRUCCIONES PARA EL EXAMEN</h3>
+            Si dará el examen en un dispositivo móvil deberá activar la opción <b>Sitio para computadora</b> y Subir el volumen al máximo.<br>
+            Una vez presionado <b>COMENZAR AHORA</b>, el examen iniciará con la 1ra parte (Listening).<br>
+            Preguntas <b>1 al 25</b>: escuchará audios y elegirá una opción (A, B, C, D). Tiempo límite de <b>20 segundos por pregunta</b> (la <b>25 dispone de 45 segundos</b>).<br>
+            Preguntas <b>26 al 50</b> (Reading): sin límite por pregunta.<br>
+            Duración máxima del examen: <b>45 minutos</b>. Al llegar a 45:00 el examen se enviará automáticamente.<br>
+            Si pierde la señal el sistema esperará y reanudará en la pregunta donde se quedó.<br>
+            Al terminar las 50 preguntas podrá revisar y modificar respuestas, y luego presionar <b>GUARDAR Y ENVIAR</b>.
+        </div>
+    </div>
+
+    <div class="main-layout">
+        <div id="nav-panel" class="nav-panel">
+            <h4 style="margin:0 0 8px;font-size:.78em;color:var(--navy);letter-spacing:1.5px;">NAVEGACIÓN</h4>
+            <div id="nav-grid" class="nav-grid"></div>
+        </div>
+
+        <div id="pantalla-pregunta" class="pregunta-box">
+            <div class="header-pregunta">
+                <span class="texto-pregunta" id="texto-pregunta">Cargando...</span>
+                <div class="tiempo-global" id="reloj-global">45:00</div>
+            </div>
+            <div id="zona-dinamica" class="bloque-contenido">
+                <div id="espacio-imagen"></div>
+                <div id="contenedor-opciones"></div>
+            </div>
+            <div id="wrapper-timer">
+                <div class="timer-container">
+                    <div id="barra-progreso" class="timer-bar"></div>
+                </div>
+                <p class="contador-texto">Tiempo pregunta: <span id="contador-numero">20</span>s</p>
+            </div>
+            <button id="btnSiguiente" class="btn-siguiente">Siguiente Pregunta</button>
+            <button id="btnGuardarEnviar" class="btn-primario">Guardar y Enviar Todo</button>
+        </div>
+    </div>
+
+    <div id="pantalla-final" style="display:none;"></div>
+</div>
+
+<audio id="reproductor"></audio>
+
+<script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzShsa4Ji2WpwZNv9KnrsAfiqxKmb-J8L2gYOFRBK-CsnoQk6Cpvv7J2Pi20y9GC7dv/exec";
+    let datosEstudiante = null;
+    let preguntasVistas = new Set();
+    let enFocoInput = false;
+    let numCarnet = "";
+    let examenIniciado = false;
+    let examenFinalizado = false;
+    let datosResultadoServidor = null;
+
+    function manejarBloqueoTeclado(e) {
+        if (enFocoInput) return true;
+        if (e.keyCode == 116) { mostrarModalSalir(); e.preventDefault(); return false; }
+        if (e.ctrlKey && (e.keyCode == 82)) { mostrarModalSalir(); e.preventDefault(); return false; }
+        if (e.keyCode == 123 || (e.ctrlKey && (e.keyCode == 85 || (e.shiftKey && e.keyCode == 73)))) { return false; }
+        return false;
+    }
+
+    window.addEventListener('beforeunload', function(e) {
+        if (examenIniciado && !examenFinalizado) {
+            e.preventDefault();
+            e.returnValue = '¿Desea salir del examen? Se perderá el avance.';
+            return e.returnValue;
+        }
+    });
+
+    function mostrarModalSalir() { if (!examenIniciado || examenFinalizado) return; document.getElementById('modal-salir').style.display = 'flex'; }
+    function cancelarSalida() { document.getElementById('modal-salir').style.display = 'none'; }
+    function confirmarSalida() { examenFinalizado = true; try { window.close(); } catch (e) { } window.location.href = 'about:blank'; }
+
+    const _k = [3,2,2,2,0, 0,1,2,2,3, 1,1,3,2,1, 1,2,2,0,2, 2,3,0,1,0, 2,2,3,1,2, 0,1,1,2,3, 0,1,3,0,3, 1,3,1,2,3, 2,0,0,2,2];
+
+		const examenData = [
+			// --- PART I - LISTENING (PREGUNTAS DE TEXTO 1 AL 25) ---
+			{ audio: "1_29B.mp3", pregunta: "1. That's her _________.", tipo: "texto", opciones: ["kidney", "salary", "outfit", "nature"] },
+			{ audio: "2_29B.mp3", pregunta: "2. My typewriter is _________.", tipo: "texto", opciones: ["large", "new", "broken", "cheap"] },
+			{ audio: "3_29B.mp3", pregunta: "3. Select the best option:", tipo: "texto", opciones: ["Don't stay out late.", "I like the evenings.", "Let's see a movie.", "It's still early."] },
+			{ audio: "4_29B.mp3", pregunta: "4. He wanted to _________.", tipo: "texto", opciones: ["shop", "sleep", "eat", "read"] },
+			{ audio: "5_29B.mp3", pregunta: "5. Mary _________ the plans.", tipo: "texto", opciones: ["revealed", "defied", "implemented", "complicated"] },
+			{ audio: "6_29B.mp3", pregunta: "6. She likes that _________.", tipo: "texto", opciones: ["flavor", "graph", "cafe", "style"] },
+			{ audio: "7_29B.mp3", pregunta: "7. Mr. Jones _________.", tipo: "texto", opciones: ["stayed up", "passed away", "came out", "called in"] },
+			{ audio: "8_29B.mp3", pregunta: "8. Select the best option:", tipo: "texto", opciones: ["On Saturday", "Last night", "For a year", "Once a year"] },
+			{ audio: "9_29B.mp3", pregunta: "9. I stay in shape _________.", tipo: "texto", opciones: ["whenever possible", "in the gymnasium", "by jogging", "on the weekends"] },
+			{ audio: "10_29B.mp3", pregunta: "10. The weather is _________.", tipo: "texto", opciones: ["not warm at all", "fairly warm", "a little hot", "extremely hot"] },
+			{ audio: "11_29B.mp3", pregunta: "11. You have to _________ the job.", tipo: "texto", opciones: ["monitor", "specify", "evaluate", "implement"] },
+			{ audio: "12_29B.mp3", pregunta: "12. Select the best option:", tipo: "texto", opciones: ["They have very good sales.", "They have sales once a month.", "The sale is on the first floor.", "The sale will be next Tuesday."] },
+			{ audio: "13_29B.mp3", pregunta: "13. Confidence in _________ is important.", tipo: "texto", opciones: ["technology", "other people", "your teachers", "yourself"] },
+			{ audio: "14_29B.mp3", pregunta: "14. Select the best option:", tipo: "texto", opciones: ["Since ten", "Always", "Tomorrow", "Usually"] },
+			{ audio: "15_29B.mp3", pregunta: "15. Select the best option:", tipo: "texto", opciones: ["He enjoys trying different kinds of soup.", "He asked whether he might try the soup.", "He wants to know what kind of soup it is.", "The soups he makes are usually delicious."] },
+			{ audio: "16_29B.mp3", pregunta: "16. He needs to find out _________.", tipo: "texto", opciones: ["how many workers the store needs", "what they have in the store", "when the store is open", "where the store is located"] },
+			{ audio: "17_29B.mp3", pregunta: "17. Her son is _________.", tipo: "texto", opciones: ["an adult", "a monitor", "a minor", "a host"] },
+			{ audio: "18_29B.mp3", pregunta: "18. The weather was _________.", tipo: "texto", opciones: ["a result", "a warning", "an influence", "an effect"] },
+			{ audio: "19_29B.mp3", pregunta: "19. John is a _________.", tipo: "texto", opciones: ["resident", "writer", "host", "monitor"] },
+			{ audio: "20_29B.mp3", pregunta: "20. The woman's _________ is broken.", tipo: "texto", opciones: ["television", "stereo", "camera", "lamp"] },
+			{ audio: "21_29B.mp3", pregunta: "21. Tom was in _________.", tipo: "texto", opciones: ["an accident", "a parade", "a fight", "a dance"] },
+			{ audio: "22_29B.mp3", pregunta: "22. The shirt _________.", tipo: "texto", opciones: ["isn't in stock", "has style", "is in a catalog", "has a flaw"] },
+			{ audio: "23_29B.mp3", pregunta: "23. Robert has a lot of _________.", tipo: "texto", opciones: ["potential", "integrity", "courage", "garbage"] },
+			{ audio: "24_29B.mp3", pregunta: "24. Select the best option:", tipo: "texto", opciones: ["doesn't like museums", "convinced the woman", "threatened the woman", "doesn't want to go"] },
+			{ audio: "25_29B.mp3", pregunta: "25. The woman likes the book's _________.", tipo: "texto", opciones: ["subject", "author", "price", "appearance"] },
+
+			// --- PART II - READING (PREGUNTAS DE TEXTO 26 AL 50) ---
+			{ audio: null, pregunta: "26. Because of the hurricane, even the _________ police had to work.", tipo: "texto", opciones: ["direct", "distinct", "auxiliary", "intense"] },
+			{ audio: null, pregunta: "27. Tina had her wedding cake _________ at home.", tipo: "texto", opciones: ["bake", "to bake", "baked", "bakes"] },
+			{ audio: null, pregunta: "28. Mary needs to go _________ for groceries before dinner.", tipo: "texto", opciones: ["shop", "to shop", "to shopping", "shopping"] },
+			{ audio: null, pregunta: "29. The pilot was _________ because he was not competent.", tipo: "texto", opciones: ["hired", "fired", "recruited", "promoted"] },
+			{ audio: null, pregunta: "30. Carl _________ turns on the radio when he walks in the house.", tipo: "texto", opciones: ["automatic", "automatical", "automatically", "automatize"] },
+			{ audio: null, pregunta: "31. He will order the man _________.", tipo: "texto", opciones: ["to load the cargo", "load the cargo", "to be loaded the cargo", "loaded the cargo"] },
+			{ audio: null, pregunta: "32. If John has a high temperature, the doctor will hospital_________ him.", tipo: "texto", opciones: ["-fy", "-ize", "-ify", "-en"] },
+			{ audio: null, pregunta: "33. They could see a fire _________ in the darkness.", tipo: "texto", opciones: ["slamming", "glowing", "drawing", "punching"] },
+			{ audio: null, pregunta: "34. The student was not prepared _________ taking the quiz.", tipo: "texto", opciones: ["with", "to", "for", "of"] },
+			{ audio: null, pregunta: "35. John: Bill, do you understand my problem?\nAnne: What did John say?\nBill: He asked me _________ his problem.", tipo: "texto", opciones: ["do I understand", "if you understood", "if he understands", "if I understood"] },
+			{ audio: null, pregunta: "36. Tom and Bill live in the same _________.", tipo: "texto", opciones: ["neighborhood", "relation", "foundation", "booth"] },
+			{ audio: null, pregunta: "37. Whenever Paul is in New York, he tours the city _________ bus.", tipo: "texto", opciones: ["with", "by", "about", "for"] },
+			{ audio: null, pregunta: "38. They'll have to dark_________ the room before they can show the movie.", tipo: "texto", opciones: ["-ize", "-ify", "-fy", "-en"] },
+			{ audio: null, pregunta: "39. Please write your name in the _________.", tipo: "texto", opciones: ["blank", "balance", "factor", "flaw"] },
+			{ audio: null, pregunta: "40. The automobile plant is located in an _________ area of the city.", tipo: "texto", opciones: ["industry", "industrialize", "industrially", "industrial"] },
+			{ audio: null, pregunta: "41. They urged _________.", tipo: "texto", opciones: ["not him to stay there", "him not to stay there", "him not stay there", "him to stay not there"] },
+			{ audio: null, pregunta: "42. Everyone has _________ John to try out because he's very good.", tipo: "texto", opciones: ["admired", "punched", "encouraged", "distracted"] },
+			{ audio: null, pregunta: "43. I haven't seen Lt Smith at the school lately. He _________ have graduated.", tipo: "texto", opciones: ["would", "must", "will", "ought to"] },
+			{ audio: null, pregunta: "44. Calm down! What are you so upset _________?", tipo: "texto", opciones: ["of", "to", "about", "in"] },
+			{ audio: null, pregunta: "45. The tunnel goes _________ the mountain.", tipo: "texto", opciones: ["over", "around", "beside", "through"] },
+			{ audio: null, pregunta: "46. The men had to cut the metal _________ a special saw.", tipo: "texto", opciones: ["by", "for", "with", "to"] },
+			{ audio: null, pregunta: "47. Sue: I can go tomorrow.\nTom: What did Sue say?\nJoe: Sue _________ go tomorrow.", tipo: "texto", opciones: ["said she could", "asked could she", "said I could", "asked when she could"] },
+			{ audio: null, pregunta: "48. It was a direct flight, so _________.", tipo: "texto", opciones: ["there were no extra stops", "it was a rough trip", "the trip was very slow", "we had to change pilots"] },
+			{ audio: null, pregunta: "49. Albert didn't pass the test. He _________ have studied more.", tipo: "texto", opciones: ["will", "must", "should", "may"] },
+			{ audio: null, pregunta: "50. We tried, but we couldn't get our neighbors _________ their stereo.", tipo: "texto", opciones: ["turn down", "turned down", "to turn down", "turning down"] }
+		];
+		
+    let indice = 0, respuestas = [], intervalo, temporizador, enPausa = false;
+    let imgOk = false, audioOk = false, modoRevision = false;
+    let chequeoRedIntervalo = null;
+
+    const TIEMPO_PREGUNTA_NORMAL = 40000;
+    const TIEMPO_PREGUNTA_25 = 45000;
+    function tiempoParaPregunta(i) { return i === 24 ? TIEMPO_PREGUNTA_25 : TIEMPO_PREGUNTA_NORMAL; }
+
+    let tiempoGlobalSegundos = 45 * 60;
+    let intervaloGlobal = null;
+    let relojGlobalIniciado = false;
+
+    const reproductor = document.getElementById('reproductor');
+    const avisoRed = document.getElementById('aviso-conexion');
+
+    function actualizarPanelNavegacion() {
+        const grid = document.getElementById('nav-grid');
+        grid.innerHTML = '';
+        examenData.forEach(function(_, i) {
+            const item = document.createElement('div');
+            item.className = 'nav-item';
+            if (i === indice) item.classList.add('active');
+            if (respuestas[i] !== undefined && respuestas[i] !== null) item.classList.add('answered');
+            item.innerText = i + 1;
+            item.onclick = function() { if (modoRevision || i >= 25) { indice = i; mostrarPregunta(); } };
+            grid.appendChild(item);
+        });
+    }
+
+    function iniciarRelojGlobal() {
+        if (relojGlobalIniciado) return;
+        relojGlobalIniciado = true;
+        var m = Math.floor(tiempoGlobalSegundos / 60);
+        var s = tiempoGlobalSegundos % 60;
+        document.getElementById('reloj-global').innerText = m.toString().padStart(2, '0') + ':' + s.toString().padStart(2, '0');
+
+        intervaloGlobal = setInterval(function() {
+            if (!enPausa) {
+                tiempoGlobalSegundos--;
+                var m2 = Math.floor(tiempoGlobalSegundos / 60);
+                var s2 = tiempoGlobalSegundos % 60;
+                document.getElementById('reloj-global').innerText = m2.toString().padStart(2, '0') + ':' + s2.toString().padStart(2, '0');
+                if (tiempoGlobalSegundos <= 0) { clearInterval(intervaloGlobal); if (!examenFinalizado) procesarEnvioFinal(); }
+            }
+        }, 1000);
+    }
+
+    async function actualizarAvanceNube() {
+        if (!datosEstudiante) return;
+        preguntasVistas.add(indice);
+        var totalResp = respuestas.filter(function(r) { return r !== undefined && r !== null; }).length;
+        var avanceTexto = 'Vistas: ' + preguntasVistas.size + ', Resp: ' + totalResp;
+        var aciertos = 0;
+        respuestas.forEach(function(res, i) { if (res === _k[i]) aciertos++; });
+        var notaActual = (aciertos * 2) + ' / 100';
+
+        var letraParaHoja = "NULO";
+        var esCorrecta = false;
+        if (respuestas[indice] !== undefined && respuestas[indice] !== null) {
+            letraParaHoja = ["A", "B", "C", "D"][respuestas[indice]];
+            esCorrecta = (respuestas[indice] === _k[indice]);
+        }
+
+        var respuestasLimpias = respuestas.map(function(r) { return (r === undefined || r === null) ? null : r; });
+
+        var condicionEstudiante = datosEstudiante ? (datosEstudiante.condicion || 'NORMAL') : 'NORMAL';
+
+        try {
+            fetch(SCRIPT_URL, {
+                method: 'POST', mode: 'no-cors',
+                body: JSON.stringify({
+                    action: 'avance', fila: datosEstudiante.fila, avance: avanceTexto,
+                    notaParcial: notaActual, preguntaIndice: indice, letra: letraParaHoja,
+                    esCorrecto: esCorrecta, indice: indice, tiempoRestante: tiempoGlobalSegundos,
+                    respuestasJSON: JSON.stringify(respuestasLimpias),
+                    condicion: condicionEstudiante
+                })
+            });
+        } catch (e) { console.error("Error al sincronizar"); }
+    }
+
+    function pausarPorRed() {
+        if (enPausa) return;
+        enPausa = true;
+        avisoRed.style.display = 'flex';
+        try { reproductor.pause(); } catch (e) { }
+        clearInterval(intervalo);
+        clearTimeout(temporizador);
+        if (!chequeoRedIntervalo) {
+            chequeoRedIntervalo = setInterval(function() { if (navigator.onLine) cargarRecursosPreguntaActual(); }, 1000);
+        }
+    }
+
+    function cargarRecursosPreguntaActual() {
+        var data = examenData[indice];
+        imgOk = (data.tipo === "texto") || !data.imagen;
+        audioOk = (data.audio === null) || modoRevision;
+        if (data.imagen) {
+            var img = new Image();
+            img.onload = function() { imgOk = true; verificarSiPodemosSeguir(); };
+            img.onerror = function() { imgOk = false; pausarPorRed(); };
+            img.src = data.imagen + "?t=" + Date.now();
+        }
+        if (data.audio && !modoRevision) {
+            try {
+                reproductor.oncanplaythrough = function() { audioOk = true; verificarSiPodemosSeguir(); };
+                reproductor.onerror = function() { audioOk = false; pausarPorRed(); };
+                reproductor.src = data.audio + "?t=" + Date.now();
+                reproductor.load();
+            } catch (e) { pausarPorRed(); }
+        } else { verificarSiPodemosSeguir(); }
+    }
+
+    function verificarSiPodemosSeguir() {
+        if (imgOk && audioOk && navigator.onLine) {
+            clearInterval(chequeoRedIntervalo);
+            chequeoRedIntervalo = null;
+            enPausa = false;
+            avisoRed.style.display = 'none';
+            if (!examenIniciado) { examenIniciado = true; iniciarRelojGlobal(); }
+            if (examenData[indice].audio && !modoRevision) { reproductor.play().catch(function() { }); }
+            if (!modoRevision && indice < 25) {
+                document.getElementById('wrapper-timer').style.visibility = 'visible';
+                empezarTimer(tiempoParaPregunta(indice));
+            } else {
+                document.getElementById('wrapper-timer').style.visibility = 'hidden';
+            }
+        }
+    }
+
+    window.addEventListener('offline', pausarPorRed);
+    window.addEventListener('online', function() { if (enPausa) cargarRecursosPreguntaActual(); });
+
+    document.getElementById('btnIniciar').onclick = async function() {
+        var inputCarnet = document.getElementById('input-carnet');
+        var valor = inputCarnet.value.trim();
+        if (valor === "") { alert("Por favor, ingrese su número de carnet."); return; }
+        var pantallaCarga = document.getElementById('pantalla-carga-final');
+        var msjCarga = document.getElementById('mensaje-carga-final');
+        pantallaCarga.style.display = 'flex';
+        msjCarga.innerText = "Validando registro y horario...";
+        try {
+            var response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'validar', carnet: valor }) });
+            var res = await response.json();
+            if (res.success) {
+                datosEstudiante = res;
+                numCarnet = valor;
+                msjCarga.innerText = "Cargando primera pregunta...";
+                document.getElementById('pantalla-inicio').style.display = 'none';
+                document.body.classList.remove('scroll-inicio');
+                document.getElementById('nav-panel').style.display = 'block';
+                document.getElementById('pantalla-pregunta').style.display = 'block';
+
+                if (res.reanudar) {
+                    indice = res.indice || 0;
+                    tiempoGlobalSegundos = res.tiempoRestante || 2700;
+                    if (res.respuestas && res.respuestas.length > 0) { respuestas = res.respuestas; }
+                    var mR = Math.floor(tiempoGlobalSegundos / 60);
+                    var sR = tiempoGlobalSegundos % 60;
+                    document.getElementById('reloj-global').innerText = mR.toString().padStart(2, '0') + ':' + sR.toString().padStart(2, '0');
+                    actualizarPanelNavegacion();
+                }
+
+                mostrarPregunta();
+                var espera = setInterval(function() { if (examenIniciado) { pantallaCarga.style.display = 'none'; clearInterval(espera); } }, 200);
+            } else {
+                pantallaCarga.style.display = 'none';
+                alert(res.mensaje || "Usted no se encuentra habilitado o registrado para este examen.");
+            }
+        } catch (e) {
+            pantallaCarga.style.display = 'none';
+            alert("Error de conexión. Intente de nuevo.");
+        }
+    };
+
+    function mostrarPregunta() {
+        if (indice >= examenData.length) { activarModoRevision(); return; }
+        actualizarAvanceNube();
+        actualizarPanelNavegacion();
+        var data = examenData[indice];
+        var zona = document.getElementById('zona-dinamica');
+        zona.innerHTML = '<div id="espacio-imagen"></div><div id="contenedor-opciones"></div>';
+        var espacioImg = document.getElementById('espacio-imagen');
+        var contenedorOpts = document.getElementById('contenedor-opciones');
+        document.getElementById('contador-numero').innerText = Math.round(tiempoParaPregunta(indice) / 1000);
+
+        if (data.tipo === "visual") {
+            document.getElementById('texto-pregunta').innerText = data.pregunta;
+            contenedorOpts.className = "contenedor-opciones-circular";
+            var img = document.createElement('img');
+            img.className = 'imagen-pregunta';
+            img.src = data.imagen;
+            espacioImg.appendChild(img);
+            ['A', 'B', 'C', 'D'].forEach(function(letra, i) {
+                var div = document.createElement('div');
+                div.className = 'division-opcion';
+                var btn = document.createElement('button');
+                btn.className = 'opcion-btn-circular' + (respuestas[indice] === i ? ' seleccionada' : '');
+                btn.innerText = letra;
+                btn.onclick = function() {
+                    document.querySelectorAll('.opcion-btn-circular').forEach(function(b) { b.classList.remove('seleccionada'); });
+                    btn.classList.add('seleccionada');
+                    respuestas[indice] = i;
+                    actualizarPanelNavegacion();
+                    actualizarAvanceNube();
+                };
+                div.appendChild(btn);
+                contenedorOpts.appendChild(div);
+            });
+        }
+        else if (data.tipo === "texto") {
+            document.getElementById('texto-pregunta').innerText = data.pregunta;
+            contenedorOpts.className = "contenedor-opciones-vertical";
+            data.opciones.forEach(function(texto, i) {
+                var btn = document.createElement('button');
+                btn.className = 'opcion-btn-vertical' + (respuestas[indice] === i ? ' seleccionada' : '');
+                btn.innerHTML = '<strong>' + String.fromCharCode(65 + i) + '.</strong>  ' + texto;
+                btn.onclick = function() {
+                    document.querySelectorAll('.opcion-btn-vertical').forEach(function(b) { b.classList.remove('seleccionada'); });
+                    btn.classList.add('seleccionada');
+                    respuestas[indice] = i;
+                    actualizarPanelNavegacion();
+                    actualizarAvanceNube();
+                };
+                contenedorOpts.appendChild(btn);
+            });
+        }
+        else if (data.tipo === "etapa2") {
+            document.getElementById('texto-pregunta').innerText = "";
+            zona.innerHTML = '<div class="layout-etapa2"><img src="' + data.imagen + '" class="img-lateral"><div class="columna-opciones"><p style="font-size:1.2em;font-weight:700;margin-bottom:14px;text-align:center;color:var(--navy);">' + data.pregunta + '</p><div id="sub-opts"></div></div></div>';
+            var subOpts = document.getElementById('sub-opts');
+            data.opciones.forEach(function(texto, i) {
+                var btn = document.createElement('button');
+                btn.className = 'opcion-btn-vertical' + (respuestas[indice] === i ? ' seleccionada' : '');
+                btn.style.marginBottom = "8px";
+                btn.innerHTML = '<strong>' + String.fromCharCode(65 + i) + '.</strong> ' + texto;
+                btn.onclick = function() {
+                    document.querySelectorAll('.opcion-btn-vertical').forEach(function(b) { b.classList.remove('seleccionada'); });
+                    btn.classList.add('seleccionada');
+                    respuestas[indice] = i;
+                    actualizarPanelNavegacion();
+                    actualizarAvanceNube();
+                };
+                subOpts.appendChild(btn);
+            });
+        }
+        cargarRecursosPreguntaActual();
+    }
+
+    function activarModoRevision() {
+        modoRevision = true;
+        clearInterval(intervalo);
+        clearTimeout(temporizador);
+        document.getElementById('wrapper-timer').style.display = 'none';
+        document.getElementById('btnSiguiente').style.display = 'none';
+        document.getElementById('btnGuardarEnviar').style.display = 'inline-block';
+        indice = 0;
+        mostrarPregunta();
+    }
+
+    function empezarTimer(ms) {
+        clearInterval(intervalo);
+        clearTimeout(temporizador);
+        var queda = ms;
+        var barra = document.getElementById('barra-progreso');
+        barra.style.transition = 'none';
+        barra.style.width = '100%';
+        document.getElementById('contador-numero').innerText = Math.round(ms / 1000);
+        setTimeout(function() {
+            if (enPausa) return;
+            barra.style.transition = 'width ' + ms + 'ms linear';
+            barra.style.width = '0%';
+        }, 50);
+        intervalo = setInterval(function() {
+            if (!enPausa) { queda -= 1000; if (queda >= 0) document.getElementById('contador-numero').innerText = Math.ceil(queda / 1000); }
+        }, 1000);
+        temporizador = setTimeout(function() {
+            if (!enPausa) { actualizarAvanceNube(); indice++; mostrarPregunta(); }
+        }, ms);
+    }
+
+    document.getElementById('btnGuardarEnviar').onclick = function() { document.getElementById('modal-confirmacion').style.display = 'flex'; };
+    function cerrarModal() { document.getElementById('modal-confirmacion').style.display = 'none'; }
+
+    async function procesarEnvioFinal() {
+        cerrarModal();
+        clearInterval(intervaloGlobal);
+        examenFinalizado = true;
+        var pantallaCarga = document.getElementById('pantalla-carga-final');
+        var msjCarga = document.getElementById('mensaje-carga-final');
+        pantallaCarga.style.display = 'flex';
+        msjCarga.innerText = "Guardando respuestas...";
+        var aciertos = respuestas.filter(function(r, i) { return r === _k[i]; }).length;
+        var notaSobre100 = aciertos * 2;
+        var notaFinal = notaSobre100 + ' / 100';
+
+        var detallesResultados = [];
+        for (var i = 0; i < examenData.length; i++) {
+            if (respuestas[i] !== undefined && respuestas[i] !== null) {
+                detallesResultados.push(["A", "B", "C", "D"][respuestas[i]]);
+            } else {
+                detallesResultados.push("NULO");
+            }
+        }
+
+        try {
+            var response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'guardar', fila: datosEstudiante ? datosEstudiante.fila : null, nota: notaSobre100, detalles: detallesResultados }) });
+            var res = await response.json();
+            if (res.success) {
+                datosResultadoServidor = res;
+                msjCarga.innerText = "¡Datos guardados con éxito!";
+                setTimeout(function() { pantallaCarga.style.display = 'none'; finalizar(res.fecha, notaFinal, res); }, 1200);
+            } else {
+                pantallaCarga.style.display = 'none';
+                finalizar("Error en servidor", notaFinal, res);
+            }
+        } catch (e) {
+            pantallaCarga.style.display = 'none';
+            alert("Error al guardar en la nube. Se mostrará el resultado localmente.");
+            finalizar("Error en servidor", notaFinal, null);
+        }
+    }
+
+    function finalizar(fecha, nota, datosServidor) {
+        document.getElementById('nav-panel').style.display = 'none';
+        document.getElementById('pantalla-pregunta').style.display = 'none';
+        document.body.classList.add('scroll-resultado');
+
+        var finalDiv = document.getElementById('pantalla-final');
+        var hoy = new Date();
+        var meses = ["ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO","JULIO","AGOSTO","SEPTIEMBRE","OCTUBRE","NOVIEMBRE","DICIEMBRE"];
+        var fechaTexto = hoy.getDate() + ' DE ' + meses[hoy.getMonth()] + ' DEL ' + hoy.getFullYear();
+        var nombreEst = datosEstudiante ? datosEstudiante.nombre : "Estudiante";
+        var libroEst = datosEstudiante && datosEstudiante.libro ? datosEstudiante.libro : "TEST BOOK 4";
+        var condicion = datosEstudiante ? datosEstudiante.condicion : "NORMAL";
+        if (!condicion) condicion = "NORMAL";
+
+        var aciertos = respuestas.filter(function(r, i) { return r === _k[i]; }).length;
+        var notaBase = aciertos * 2;
+        var notaRezagadoVal = "";
+        var notaRetestVal = "";
+        var estadoBase = notaBase >= 70 ? "APROBADO" : (notaBase > 0 ? "REPROBADO" : "PENDIENTE");
+        var estadoRezagado = "";
+        var estadoRetest = "";
+
+        if (datosServidor) {
+            if (datosServidor.notaObtenida !== undefined && datosServidor.notaObtenida !== "") {
+                notaBase = typeof datosServidor.notaObtenida === 'number' ? datosServidor.notaObtenida : notaBase;
+                estadoBase = notaBase >= 70 ? "APROBADO" : (notaBase > 0 ? "REPROBADO" : "PENDIENTE");
+            }
+            if (datosServidor.notaRezagoFinal !== undefined && datosServidor.notaRezagoFinal !== "") {
+                notaRezagadoVal = datosServidor.notaRezagoFinal;
+                estadoRezagado = datosServidor.estadoRezago || "";
+            }
+            if (datosServidor.notaRetestFinal !== undefined && datosServidor.notaRetestFinal !== "") {
+                notaRetestVal = datosServidor.notaRetestFinal;
+                estadoRetest = datosServidor.estadoRetest || "";
+            }
+        } else {
+            if (condicion === "REZAGADO") {
+                notaRezagadoVal = Math.round(notaBase * 0.9);
+                estadoRezagado = notaRezagadoVal >= 70 ? "APROBADO" : "REPROBADO";
+            }
+            if (condicion === "RETEST") {
+                notaRetestVal = Math.min(notaBase, 70);
+                estadoRetest = notaRetestVal >= 70 ? "APROBADO" : "REPROBADO";
+            }
+        }
+
+        var SVG_OK = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 12 10 17 19 7"/></svg>';
+        var SVG_X = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>';
+
+        var planchetaHTML = '<div class="plancheta-grid">';
+        for (var i = 0; i < 50; i++) {
+            var bg = 'linear-gradient(180deg,#fff8e1,#ffe9a8)';
+            var color = '#7a5a00';
+            var markHTML = '<span class="pmark pend"></span>';
+            if (respuestas[i] !== undefined && respuestas[i] !== null) {
+                if (respuestas[i] === _k[i]) {
+                    bg = 'linear-gradient(180deg,#e6f7ec,#c6ebd2)'; color = '#155724';
+                    markHTML = '<span class="pmark ok">' + SVG_OK + '</span>';
+                } else {
+                    bg = 'linear-gradient(180deg,#fde9eb,#f6c6ca)'; color = '#721c24';
+                    markHTML = '<span class="pmark x">' + SVG_X + '</span>';
+                }
+            }
+            planchetaHTML += '<div class="plancheta-item" style="background:' + bg + ';color:' + color + ';"><div class="num">' + (i + 1) + '</div>' + markHTML + '</div>';
+        }
+        planchetaHTML += '</div>';
+
+        var condicionBadgeClass = 'normal';
+        var condicionTexto = 'NORMAL — En Plazo';
+        var detalleCalculoHTML = '';
+
+        if (condicion === 'REZAGADO') {
+            condicionBadgeClass = 'rezagado';
+            condicionTexto = 'REZAGADO';
+            var notaRezDisplay = (typeof notaRezagadoVal === 'number') ? notaRezagadoVal + ' / 100' : notaRezagadoVal;
+            var estRezClass = estadoRezagado === 'APROBADO' ? 'estado-aprobado' : 'estado-reprobado';
+            detalleCalculoHTML = '<div class="calculo-detalle">' +
+                '<p><strong>Nota Obtenida:</strong> ' + notaBase + ' / 100</p>' +
+                '<p><strong>Cálculo Rezagado:</strong> ' + notaBase + ' × 90% = <strong>' + notaRezDisplay + '</strong></p>' +
+                '<p><strong>Estado:</strong> <span class="' + estRezClass + '">' + estadoRezagado + '</span></p>' +
+                '<p class="nota-calculo">* La nota Rezagado se calcula al 90% de la nota obtenida según reglamento.</p>' +
+                '</div>';
+        } else if (condicion === 'RETEST') {
+            condicionBadgeClass = 'retest';
+            condicionTexto = 'RETEST';
+            var notaRetDisplay = (typeof notaRetestVal === 'number') ? notaRetestVal + ' / 100' : notaRetestVal;
+            var estRetClass = estadoRetest === 'APROBADO' ? 'estado-aprobado' : 'estado-reprobado';
+            detalleCalculoHTML = '<div class="calculo-detalle">' +
+                '<p><strong>Nota Obtenida:</strong> ' + notaBase + ' / 100</p>' +
+                '<p><strong>Cálculo Retest:</strong> Mínimo(' + notaBase + ', 70) = <strong>' + notaRetDisplay + '</strong></p>' +
+                '<p><strong>Estado:</strong> <span class="' + estRetClass + '">' + estadoRetest + '</span></p>' +
+                '<p class="nota-calculo">* La nota Retest tiene como máximo 70 pts según reglamento.</p>' +
+                '</div>';
+        } else {
+            var estBaseClass = estadoBase === 'APROBADO' ? 'estado-aprobado' : (estadoBase === 'PENDIENTE' ? 'estado-pendiente' : 'estado-reprobado');
+            detalleCalculoHTML = '<div class="calculo-detalle">' +
+                '<p><strong>Nota Obtenida:</strong> ' + notaBase + ' / 100</p>' +
+                '<p><strong>Estado:</strong> <span class="' + estBaseClass + '">' + estadoBase + '</span></p>' +
+                '</div>';
+        }
+
+        var notaPrincipalHTML = '<div class="nota-destacada">NOTA OBTENIDA: ' + notaBase + ' / 100</div>';
+
+        var notasAdicionalesHTML = '';
+        if (condicion === 'REZAGADO' && notaRezagadoVal !== "") {
+            var notaRezDisp = (typeof notaRezagadoVal === 'number') ? notaRezagadoVal + ' / 100' : notaRezagadoVal;
+            notasAdicionalesHTML = '<div style="font-size:20px;font-weight:700;color:var(--navy-2);background:#fff3e0;padding:10px;margin:6px 0 12px;border-radius:8px;display:block;border:2px solid #e65100;">NOTA FINAL REZAGADO (90%): ' + notaRezDisp + '</div>';
+        }
+        if (condicion === 'RETEST' && notaRetestVal !== "") {
+            var notaRetDisp = (typeof notaRetestVal === 'number') ? notaRetestVal + ' / 100' : notaRetestVal;
+            notasAdicionalesHTML = '<div style="font-size:20px;font-weight:700;color:var(--navy-2);background:#fce4ec;padding:10px;margin:6px 0 12px;border-radius:8px;display:block;border:2px solid #c62828;">NOTA FINAL RETEST (MÁX 70): ' + notaRetDisp + '</div>';
+        }
+
+        finalDiv.innerHTML =
+            '<div class="card-resultado" id="certificado-area">' +
+            '<img src="LOGO_EIE.png" style="width:56px;margin-bottom:4px;" onerror="this.style.display=\'none\'">' +
+            '<h3>RESULTADO DE EVALUACIÓN</h3>' +
+            '<div class="detalle-final">' +
+            '<p><strong>ESTUDIANTE:</strong> ' + nombreEst + '</p>' +
+            '<p><strong>CARNET DE IDENTIDAD:</strong> ' + numCarnet + '</p>' +
+            '<p><strong>LIBRO:</strong> ' + libroEst + '</p>' +
+            '<p><strong>FECHA:</strong> ' + fechaTexto + '</p>' +
+            '</div>' +
+            '<div class="detalle-condicion">' +
+            '<div class="condicion-badge ' + condicionBadgeClass + '">' + condicionTexto + '</div>' +
+            detalleCalculoHTML +
+            '</div>' +
+            notaPrincipalHTML +
+            notasAdicionalesHTML +
+            '<h4 style="color:var(--navy);margin:15px 0 5px;">PLANCHETA DE RESULTADOS</h4>' +
+            planchetaHTML +
+            '<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:20px;">' +
+            '<button onclick="descargarPDF()" class="btn-primario btn-mostaza">DESCARGAR PDF</button>' +
+            '<button onclick="window.location.href=\'https://eievirtual2026.github.io/LOGIN/\'" class="btn-primario">INICIO</button>' +
+            '</div>' +
+            '</div>';
+        finalDiv.style.display = 'block';
+    }
+
+    document.getElementById('btnSiguiente').onclick = function() {
+        if (!enPausa) { clearInterval(intervalo); clearTimeout(temporizador); indice++; mostrarPregunta(); }
+    };
+
+    function cargarLogoBase64() {
+        return new Promise(function(resolve) {
+            try {
+                var img = new Image();
+                img.crossOrigin = 'anonymous';
+                img.onload = function() {
+                    try {
+                        var canvas = document.createElement('canvas');
+                        canvas.width = img.naturalWidth || img.width;
+                        canvas.height = img.naturalHeight || img.height;
+                        var ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0);
+                        resolve({ data: canvas.toDataURL('image/png'), w: canvas.width, h: canvas.height });
+                    } catch(e) { resolve(null); }
+                };
+                img.onerror = function() { resolve(null); };
+                img.src = 'LOGO_EIE.png';
+            } catch(e) { resolve(null); }
+        });
+    }
+
+    async function descargarPDF() {
+        try {
+            var nombreEst = datosEstudiante ? datosEstudiante.nombre : "Estudiante";
+            var libroEst = datosEstudiante && datosEstudiante.libro ? datosEstudiante.libro : "TEST BOOK 29";
+            var condicion = datosEstudiante ? datosEstudiante.condicion : "NORMAL";
+            if (!condicion) condicion = "NORMAL";
+
+            var hoy = new Date();
+            var meses = ["ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO","JULIO","AGOSTO","SEPTIEMBRE","OCTUBRE","NOVIEMBRE","DICIEMBRE"];
+            var fechaTexto = hoy.getDate() + " DE " + meses[hoy.getMonth()] + " DEL " + hoy.getFullYear();
+
+            var aciertos = respuestas.filter(function(r, i) { return r === _k[i]; }).length;
+            var notaBase = aciertos * 2;
+
+            var notaRezagadoVal = "";
+            var notaRetestVal = "";
+            var estadoBase = notaBase >= 70 ? "APROBADO" : (notaBase > 0 ? "REPROBADO" : "PENDIENTE");
+            var estadoRezagado = "";
+            var estadoRetest = "";
+
+            if (datosResultadoServidor) {
+                if (datosResultadoServidor.notaObtenida !== undefined && datosResultadoServidor.notaObtenida !== "") {
+                    notaBase = typeof datosResultadoServidor.notaObtenida === 'number' ? datosResultadoServidor.notaObtenida : notaBase;
+                    estadoBase = notaBase >= 70 ? "APROBADO" : (notaBase > 0 ? "REPROBADO" : "PENDIENTE");
+                }
+                if (datosResultadoServidor.notaRezagoFinal !== undefined && datosResultadoServidor.notaRezagoFinal !== "") {
+                    notaRezagadoVal = datosResultadoServidor.notaRezagoFinal;
+                    estadoRezagado = datosResultadoServidor.estadoRezago || "";
+                }
+                if (datosResultadoServidor.notaRetestFinal !== undefined && datosResultadoServidor.notaRetestFinal !== "") {
+                    notaRetestVal = datosResultadoServidor.notaRetestFinal;
+                    estadoRetest = datosResultadoServidor.estadoRetest || "";
+                }
+            } else {
+                if (condicion === "REZAGADO") {
+                    notaRezagadoVal = Math.round(notaBase * 0.9);
+                    estadoRezagado = notaRezagadoVal >= 70 ? "APROBADO" : "REPROBADO";
+                }
+                if (condicion === "RETEST") {
+                    notaRetestVal = Math.min(notaBase, 70);
+                    estadoRetest = notaRetestVal >= 70 ? "APROBADO" : "REPROBADO";
+                }
+            }
+
+            // Cargar jsPDF (UMD)
+            var jsPDFCtor = (window.jspdf && window.jspdf.jsPDF) ? window.jspdf.jsPDF : (window.jsPDF || null);
+            if (!jsPDFCtor) {
+                alert('No se pudo cargar el generador de PDF. Verifique su conexión a internet.');
+                return;
+            }
+
+            var doc = new jsPDFCtor({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+            var pageW = doc.internal.pageSize.getWidth();
+            var y = 15;
+
+            // Encabezado: logo EIE (con fallback a cuadro con "E")
+            var logoInfo = await cargarLogoBase64();
+            if (logoInfo && logoInfo.data) {
+                var logoH = 20;
+                var logoW = logoH * (logoInfo.w / logoInfo.h);
+                if (logoW > 40) { logoW = 40; logoH = logoW * (logoInfo.h / logoInfo.w); }
+                doc.addImage(logoInfo.data, 'PNG', pageW/2 - logoW/2, y, logoW, logoH);
+                y += logoH + 6;
+            } else {
+                doc.setFillColor(11, 36, 71);
+                doc.roundedRect(pageW/2 - 8, y, 16, 16, 2, 2, 'F');
+                doc.setTextColor(225, 177, 44);
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(18);
+                doc.text('E', pageW/2, y + 11, { align: 'center' });
+                y += 22;
+            }
+
+            doc.setTextColor(11, 36, 71);
+            doc.setFontSize(12);
+            doc.text('ESCUELA DE IDIOMAS DEL EJERCITO', pageW/2, y, { align: 'center' });
+            y += 4;
+            doc.setDrawColor(225, 177, 44);
+            doc.setLineWidth(1);
+            doc.line(pageW/2 - 15, y, pageW/2 + 15, y);
+            y += 8;
+
+            doc.setFontSize(16);
+            doc.setFont('helvetica', 'bold');
+            doc.text('RESULTADO DE EVALUACION', pageW/2, y, { align: 'center' });
+            y += 10;
+
+            // Datos del estudiante (con Libro)
+            var boxX = 25, boxW = pageW - 50;
+            var boxDatosH = 34;
+            doc.setFillColor(247, 249, 252);
+            doc.setDrawColor(219, 226, 236);
+            doc.roundedRect(boxX, y, boxW, boxDatosH, 2, 2, 'FD');
+            doc.setFontSize(10);
+            doc.setTextColor(11, 36, 71);
+            var ly = y + 7;
+            function ponerCampo(label, valor){
+                doc.setFont('helvetica', 'bold');
+                doc.text(label, boxX + 4, ly);
+                var lw = doc.getTextWidth(label);
+                doc.setFont('helvetica', 'normal');
+                doc.text(String(valor == null ? '' : valor), boxX + 4 + lw + 1, ly);
+                ly += 6.5;
+            }
+            ponerCampo('ESTUDIANTE: ', nombreEst);
+            ponerCampo('CARNET DE IDENTIDAD: ', numCarnet || '');
+            ponerCampo('LIBRO: ', libroEst);
+            ponerCampo('FECHA: ', fechaTexto);
+            y += boxDatosH + 6;
+
+            // Condicion + detalles
+            var condColor = [31, 138, 76], condBg = [232, 245, 233], condicionLabel = 'NORMAL';
+            if (condicion === 'REZAGADO') { condColor = [230, 81, 0]; condBg = [255, 243, 224]; condicionLabel = 'REZAGADO'; }
+            if (condicion === 'RETEST') { condColor = [198, 40, 40]; condBg = [252, 228, 236]; condicionLabel = 'RETEST'; }
+
+            var detalleLineas = [];
+            if (condicion === 'REZAGADO') {
+                var notaRezDisp = (typeof notaRezagadoVal === 'number') ? notaRezagadoVal + ' / 100' : notaRezagadoVal;
+                detalleLineas.push(['Nota Obtenida: ', notaBase + ' / 100']);
+                detalleLineas.push(['Calculo Rezagado: ', notaBase + ' x 90% = ' + notaRezDisp]);
+                detalleLineas.push(['Estado: ', estadoRezagado, estadoRezagado === 'APROBADO' ? [31,138,76] : [192,57,43]]);
+                detalleLineas.push(['* La nota Rezagado se calcula al 90% de la nota obtenida.', '', null, true]);
+            } else if (condicion === 'RETEST') {
+                var notaRetDisp = (typeof notaRetestVal === 'number') ? notaRetestVal + ' / 100' : notaRetestVal;
+                detalleLineas.push(['Nota Obtenida: ', notaBase + ' / 100']);
+                detalleLineas.push(['Calculo Retest: ', 'Minimo(' + notaBase + ', 70) = ' + notaRetDisp]);
+                detalleLineas.push(['Estado: ', estadoRetest, estadoRetest === 'APROBADO' ? [31,138,76] : [192,57,43]]);
+                detalleLineas.push(['* La nota Retest tiene como maximo 70 pts.', '', null, true]);
+            } else {
+                var estBaseCol = estadoBase === 'APROBADO' ? [31,138,76] : (estadoBase === 'PENDIENTE' ? [230,126,34] : [192,57,43]);
+                detalleLineas.push(['Nota Obtenida: ', notaBase + ' / 100']);
+                detalleLineas.push(['Estado: ', estadoBase, estBaseCol]);
+            }
+
+            var boxH = 14 + detalleLineas.length * 6;
+            doc.setFillColor(condBg[0], condBg[1], condBg[2]);
+            doc.setDrawColor(condColor[0], condColor[1], condColor[2]);
+            doc.roundedRect(boxX, y, boxW, boxH, 2, 2, 'FD');
+            doc.setFontSize(9);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(condColor[0], condColor[1], condColor[2]);
+            doc.text('CONDICION: ' + condicionLabel, boxX + 4, y + 7);
+            var dy = y + 14;
+            for (var di = 0; di < detalleLineas.length; di++) {
+                var ln = detalleLineas[di];
+                doc.setFontSize(ln[3] ? 8 : 10);
+                doc.setFont('helvetica', ln[3] ? 'italic' : 'bold');
+                doc.setTextColor(11, 27, 52);
+                doc.text(ln[0], boxX + 4, dy);
+                if (ln[1]) {
+                    var labelW = doc.getTextWidth(ln[0]);
+                    doc.setFont('helvetica', ln[2] ? 'bold' : 'normal');
+                    if (ln[2]) doc.setTextColor(ln[2][0], ln[2][1], ln[2][2]);
+                    doc.text(String(ln[1]), boxX + 4 + labelW, dy);
+                }
+                dy += 6;
+            }
+            y += boxH + 6;
+
+            // Nota principal (caja destacada)
+            doc.setFillColor(253, 236, 177);
+            doc.setDrawColor(225, 177, 44);
+            doc.setLineWidth(0.6);
+            doc.roundedRect(boxX, y, boxW, 14, 2, 2, 'FD');
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(14);
+            doc.setTextColor(11, 36, 71);
+            doc.text('NOTA OBTENIDA: ' + notaBase + ' / 100', pageW/2, y + 9, { align: 'center' });
+            y += 18;
+
+            // Nota adicional rezagado / retest
+            if (condicion === 'REZAGADO' && notaRezagadoVal !== "") {
+                var nRez = (typeof notaRezagadoVal === 'number') ? notaRezagadoVal + ' / 100' : notaRezagadoVal;
+                doc.setFillColor(255, 243, 224);
+                doc.setDrawColor(230, 81, 0);
+                doc.roundedRect(boxX, y, boxW, 12, 2, 2, 'FD');
+                doc.setFontSize(12);
+                doc.setTextColor(15, 42, 92);
+                doc.text('NOTA FINAL REZAGADO (90%): ' + nRez, pageW/2, y + 8, { align: 'center' });
+                y += 16;
+            }
+            if (condicion === 'RETEST' && notaRetestVal !== "") {
+                var nRet = (typeof notaRetestVal === 'number') ? notaRetestVal + ' / 100' : notaRetestVal;
+                doc.setFillColor(252, 228, 236);
+                doc.setDrawColor(198, 40, 40);
+                doc.roundedRect(boxX, y, boxW, 12, 2, 2, 'FD');
+                doc.setFontSize(12);
+                doc.setTextColor(15, 42, 92);
+                doc.text('NOTA FINAL RETEST (MAX 70): ' + nRet, pageW/2, y + 8, { align: 'center' });
+                y += 16;
+            }
+
+            // Plancheta de resultados
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(11);
+            doc.setTextColor(11, 36, 71);
+            doc.text('PLANCHETA DE RESULTADOS', pageW/2, y, { align: 'center' });
+            y += 5;
+
+            var cols = 10, rows = 5, gap = 1.5;
+            var gridW = boxW;
+            var cellW = (gridW - gap * (cols - 1)) / cols;
+            var cellH = 10;
+            for (var r = 0; r < rows; r++) {
+                for (var c = 0; c < cols; c++) {
+                    var idx = r * cols + c;
+                    var cx = boxX + c * (cellW + gap);
+                    var cy = y + r * (cellH + gap);
+                    var bg = [255, 243, 205], fg = [133, 100, 4], tipo = 'pend';
+                    if (respuestas[idx] !== undefined && respuestas[idx] !== null) {
+                        if (respuestas[idx] === _k[idx]) { bg = [212, 237, 218]; fg = [21, 87, 36]; tipo = 'ok'; }
+                        else { bg = [248, 215, 218]; fg = [114, 28, 36]; tipo = 'x'; }
+                    }
+                    doc.setFillColor(bg[0], bg[1], bg[2]);
+                    doc.setDrawColor(bg[0], bg[1], bg[2]);
+                    doc.roundedRect(cx, cy, cellW, cellH, 1, 1, 'F');
+                    doc.setTextColor(fg[0], fg[1], fg[2]);
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(6);
+                    doc.text(String(idx + 1), cx + cellW/2, cy + 3.2, { align: 'center' });
+                    // Dibujar marcas tipo emoji (figuras vectoriales)
+                    var mcx = cx + cellW/2, mcy = cy + 7;
+                    if (tipo === 'ok') {
+                        // Cuadrado verde con check blanco
+                        doc.setFillColor(46, 184, 92);
+                        doc.roundedRect(mcx - 2.2, mcy - 2.2, 4.4, 4.4, 0.6, 0.6, 'F');
+                        doc.setDrawColor(255, 255, 255);
+                        doc.setLineWidth(0.7);
+                        doc.line(mcx - 1.4, mcy + 0.1, mcx - 0.3, mcy + 1.2);
+                        doc.line(mcx - 0.3, mcy + 1.2, mcx + 1.5, mcy - 1.2);
+                    } else if (tipo === 'x') {
+                        // Circulo rojo con X blanca
+                        doc.setFillColor(229, 57, 53);
+                        doc.circle(mcx, mcy, 2.2, 'F');
+                        doc.setDrawColor(255, 255, 255);
+                        doc.setLineWidth(0.7);
+                        doc.line(mcx - 1.2, mcy - 1.2, mcx + 1.2, mcy + 1.2);
+                        doc.line(mcx - 1.2, mcy + 1.2, mcx + 1.2, mcy - 1.2);
+                    } else {
+                        // Circulo naranja (pendiente)
+                        doc.setFillColor(255, 167, 38);
+                        doc.circle(mcx, mcy, 2.2, 'F');
+                        doc.setFillColor(255, 255, 255);
+                        doc.circle(mcx, mcy, 0.9, 'F');
+                    }
+                    doc.setLineWidth(0.2);
+                }
+            }
+            y += rows * (cellH + gap) + 6;
+
+            // Pie
+            doc.setDrawColor(225, 177, 44);
+            doc.setLineWidth(0.8);
+            doc.line(pageW/2 - 15, y, pageW/2 + 15, y);
+            y += 5;
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(8);
+            doc.setTextColor(91, 107, 133);
+            doc.text('TEST BOOK 4 - Documento generado automaticamente - EIE', pageW/2, y, { align: 'center' });
+
+            doc.save('Resultado_' + (numCarnet || 'EIE') + '_TB4.pdf');
+        } catch (err) {
+            console.error('Error PDF:', err);
+            alert('No se pudo generar el PDF. Intente nuevamente.\n\n' + (err && err.message ? err.message : ''));
+        }
+    }
+</script>
+</body>
+</html>
